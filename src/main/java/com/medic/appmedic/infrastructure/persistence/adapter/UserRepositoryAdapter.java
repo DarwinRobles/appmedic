@@ -1,0 +1,62 @@
+package com.medic.appmedic.infrastructure.persistence.adapter;
+
+import com.medic.appmedic.core.entity.User;
+import com.medic.appmedic.core.usecase.port.out.UserRepositoryPort;
+import com.medic.appmedic.infrastructure.persistence.entity.UserJpaEntity;
+import com.medic.appmedic.infrastructure.persistence.jpa.UserRepository;
+
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Component
+public class UserRepositoryAdapter implements UserRepositoryPort {
+    private final UserRepository userRepository;
+
+    public UserRepositoryAdapter(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public User save(User user) {
+        UserJpaEntity entity = toEntity(user);
+        UserJpaEntity saved = userRepository.save(entity);
+        return toDomain(saved);
+    }
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        return userRepository.findById(id).map(this::toDomain);
+    }
+
+    private UserJpaEntity toEntity(User user) {
+        UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(user.getId());
+        entity.setName(user.getName());
+        entity.setFirstName(user.getFirstName());
+        entity.setLastName(user.getLastName());
+        entity.setEmail(user.getEmail());
+        entity.setPassword(user.getPassword());
+        entity.setRole(user.getRole());
+        entity.setPhone(user.getPhone());
+        entity.setCreatedAt(user.getCreatedAt());
+        entity.setUpdatedAt(user.getUpdatedAt());
+        return entity;
+    }
+
+    private User toDomain(UserJpaEntity entity) {
+        User user = new User();
+        user.setId(entity.getId());
+        user.setName(entity.getName());
+        user.setFirstName(entity.getFirstName());
+        user.setLastName(entity.getLastName());
+        user.setEmail(entity.getEmail());
+        user.setPassword(entity.getPassword());
+        user.setRole(entity.getRole());
+        user.setPhone(entity.getPhone());
+        user.setCreatedAt(entity.getCreatedAt());
+        user.setUpdatedAt(entity.getUpdatedAt());
+        return user;
+    }
+}
