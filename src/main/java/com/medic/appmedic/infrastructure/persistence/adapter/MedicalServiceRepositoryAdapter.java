@@ -7,8 +7,12 @@ import com.medic.appmedic.infrastructure.persistence.jpa.MedicalServiceRepositor
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 
 public class MedicalServiceRepositoryAdapter implements MedicalServiceRepositoryPort {
@@ -50,5 +54,12 @@ public class MedicalServiceRepositoryAdapter implements MedicalServiceRepository
         medicalService.setPrice(entity.getPrice());
         medicalService.setActive(entity.getActive());
         return medicalService;
+    }
+    @Override
+    public List<MedicalService> findAll() {
+        return medicalServiceRepository.findAll()
+                .stream()
+                .map(this::toDomain)
+                .collect(toList());
     }
 }
