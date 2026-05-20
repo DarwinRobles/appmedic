@@ -6,11 +6,13 @@ import com.medic.appmedic.infrastructure.persistence.entity.BookingJpaEntity;
 import com.medic.appmedic.infrastructure.persistence.jpa.BookingRepository;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
+@Repository
 public class BookingRepositoryAdapter implements BookingRepositoryPort {
     private final BookingRepository bookingRepository;
 
@@ -58,5 +60,11 @@ public class BookingRepositoryAdapter implements BookingRepositoryPort {
         booking.setCreatedAt(entity.getCreatedAt());
         booking.setUpdatedAt(entity.getUpdatedAt());
         return booking;
+    }
+
+    @Override
+    public List<Booking> findAllBooking(){
+        List<BookingJpaEntity> jpaEntities = bookingRepository.findAll();
+        return jpaEntities.stream().map(this::toDomain).toList();
     }
 }

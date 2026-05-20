@@ -4,14 +4,16 @@ import com.medic.appmedic.core.entity.Booking;
 import com.medic.appmedic.core.usecase.dto.request.CreateBookingRequest;
 import com.medic.appmedic.core.usecase.dto.response.BookingResponse;
 import com.medic.appmedic.core.usecase.port.in.CreateBookingCase;
+import com.medic.appmedic.core.usecase.port.in.GetListBookingCase;
 import com.medic.appmedic.core.usecase.port.out.BookingRepositoryPort;
 
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
-
-public class BookingService implements CreateBookingCase {
+@Service
+public class BookingService implements CreateBookingCase, GetListBookingCase {
     private final BookingRepositoryPort bookingRepositoryPort;
 
     public BookingService(BookingRepositoryPort bookingRepositoryPort) {
@@ -47,4 +49,23 @@ public class BookingService implements CreateBookingCase {
                 saved.getUpdatedAt()
         );
     }
+    @Override
+    public List<BookingResponse> execute(){
+        List<Booking> bookings = bookingRepositoryPort.findAllBooking();
+        return bookings.stream().map(
+                booking -> new BookingResponse(
+                        booking.getId(),
+                        booking.getClientId(),
+                        booking.getServiceId(),
+                        booking.getUserId(),
+                        booking.getScheduledAt(),
+                        booking.getStatus(),
+                        booking.getReason(),
+                        booking.getNotes(),
+                        booking.getCreatedAt(),
+                        booking.getUpdatedAt()
+                )
+        ).toList();
+    }
+
 }
