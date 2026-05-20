@@ -1,16 +1,18 @@
 package com.medic.appmedic.infrastructure.persistence.adapter;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
 import com.medic.appmedic.core.entity.Client;
 import com.medic.appmedic.core.usecase.port.out.ClientRepositoryPort;
 import com.medic.appmedic.infrastructure.persistence.entity.ClientJpaEntity;
 import com.medic.appmedic.infrastructure.persistence.jpa.ClientRepository;
 
-import org.springframework.stereotype.Component;
-
-import java.util.Optional;
-import java.util.UUID;
-
-
+@Component
 public class ClientRepositoryAdapter implements ClientRepositoryPort {
     private final ClientRepository clientRepository;
 
@@ -58,5 +60,23 @@ public class ClientRepositoryAdapter implements ClientRepositoryPort {
         client.setCreatedAt(entity.getCreatedAt());
         client.setUpdatedAt(entity.getUpdatedAt());
         return client;
+    }
+
+    @Override
+    public List<Client> findAll() {
+         
+        List<ClientJpaEntity> entities = clientRepository.findAll();
+        
+        
+        return entities.stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+       clientRepository.deleteById(id);
+
     }
 }
