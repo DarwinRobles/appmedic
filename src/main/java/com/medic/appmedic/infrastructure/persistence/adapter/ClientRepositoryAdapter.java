@@ -1,16 +1,16 @@
 package com.medic.appmedic.infrastructure.persistence.adapter;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Component;
+
 import com.medic.appmedic.core.entity.Client;
 import com.medic.appmedic.core.usecase.port.out.ClientRepositoryPort;
 import com.medic.appmedic.infrastructure.persistence.entity.ClientJpaEntity;
 import com.medic.appmedic.infrastructure.persistence.jpa.ClientRepository;
 
-import org.springframework.stereotype.Component;
-
-import java.util.Optional;
-import java.util.UUID;
-
-
+@Component
 public class ClientRepositoryAdapter implements ClientRepositoryPort {
     private final ClientRepository clientRepository;
 
@@ -28,6 +28,13 @@ public class ClientRepositoryAdapter implements ClientRepositoryPort {
     @Override
     public Optional<Client> findById(UUID id) {
         return clientRepository.findById(id).map(this::toDomain);
+    }
+
+    @Override
+    public Client updateClient(Client client) {
+        ClientJpaEntity entity = toEntity(client);
+        ClientJpaEntity updated = clientRepository.save(entity);
+        return toDomain(updated);
     }
 
     private ClientJpaEntity toEntity(Client client) {
