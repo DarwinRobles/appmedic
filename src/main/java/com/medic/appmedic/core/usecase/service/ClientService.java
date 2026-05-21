@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-
+@Service
 public class ClientService implements CreateClientCase {
     private final ClientRepositoryPort clientRepositoryPort;
 
