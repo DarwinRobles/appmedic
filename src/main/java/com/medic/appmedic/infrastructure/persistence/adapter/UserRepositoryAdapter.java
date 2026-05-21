@@ -7,8 +7,10 @@ import com.medic.appmedic.infrastructure.persistence.jpa.UserRepository;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class UserRepositoryAdapter implements UserRepositoryPort {
@@ -28,6 +30,14 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     @Override
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id).map(this::toDomain);
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<UserJpaEntity> entities = userRepository.findAll();
+        return entities.stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
     }
 
     private UserJpaEntity toEntity(User user) {
