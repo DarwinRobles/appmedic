@@ -15,6 +15,9 @@ public class CreateClientRequest {
     private LocalDate birthDate;
     private String address;
     private String notes;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+
 
     public CreateClientRequest(
             String fullName,
@@ -23,7 +26,9 @@ public class CreateClientRequest {
             String documentId,
             LocalDate birthDate,
             String address,
-            String notes
+            String notes,
+            LocalDate createdAt,
+            LocalDate updatedAt
     ) {
         this.fullName = fullName;
         this.email = email;
@@ -32,5 +37,7 @@ public class CreateClientRequest {
         this.birthDate = birthDate;
         this.address = address;
         this.notes = notes;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDate;
 
-
+@Service
 public class PaymentService implements CreatePaymentCase {
     private final PaymentRepositoryPort paymentRepositoryPort;
 

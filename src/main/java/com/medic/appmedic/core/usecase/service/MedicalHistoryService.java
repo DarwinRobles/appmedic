@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-
+@Service
 public class MedicalHistoryService implements CreateMedicalHistoryCase {
     private final MedicalHistoryRepositoryPort medicalHistoryRepositoryPort;
 

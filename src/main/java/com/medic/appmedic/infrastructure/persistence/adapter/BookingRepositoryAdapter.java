@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.UUID;
 
-
+@Component
 public class BookingRepositoryAdapter implements BookingRepositoryPort {
     private final BookingRepository bookingRepository;
 

@@ -8,7 +8,7 @@ import com.medic.appmedic.core.usecase.port.out.MedicalServiceRepositoryPort;
 
 import org.springframework.stereotype.Service;
 
-
+@Service
 public class MedicalServiceService implements CreateMedicalServiceCase {
     private final MedicalServiceRepositoryPort medicalServiceRepositoryPort;
 

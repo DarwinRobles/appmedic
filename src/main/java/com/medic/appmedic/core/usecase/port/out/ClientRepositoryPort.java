@@ -9,4 +9,6 @@ public interface ClientRepositoryPort {
     Client save(Client client);
 
     Optional<Client> findById(UUID id);
+
+    Client updateClient(Client client);
 }
