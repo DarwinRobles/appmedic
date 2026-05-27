@@ -8,4 +8,5 @@ import com.medic.appmedic.core.entity.User;
 public interface UserRepositoryPort {
     User save(User user);
     Optional<User> findById(UUID id);
+    void deleteById(UUID id);
 }
