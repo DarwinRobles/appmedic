@@ -1,4 +1,4 @@
-package com.medic.appmedic.infrastructure.persistence.controller;
+package com.medic.appmedic.infrastructure.controller;
 
 import com.medic.appmedic.core.usecase.dto.response.BookingResponse;
 import com.medic.appmedic.core.usecase.port.in.GetListBookingCase;

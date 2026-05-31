@@ -25,6 +25,7 @@ public class MedicalHistoryRepositoryAdapter implements MedicalHistoryRepository
         return toDomain(saved);
     }
 
+
     @Override
     public Optional<MedicalHistory> findById(UUID id) {
         return medicalHistoryRepository.findById(id).map(this::toDomain);
