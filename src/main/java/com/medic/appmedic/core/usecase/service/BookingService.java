@@ -8,9 +8,15 @@ import com.medic.appmedic.core.usecase.dto.request.CreateBookingRequest;
 import com.medic.appmedic.core.usecase.dto.response.BookingResponse;
 import com.medic.appmedic.core.usecase.port.in.CancelBookingCase;
 import com.medic.appmedic.core.usecase.port.in.CreateBookingCase;
+import com.medic.appmedic.core.usecase.port.in.GetListBookingCase;
 import com.medic.appmedic.core.usecase.port.out.BookingRepositoryPort;
 
-public class BookingService implements CreateBookingCase, CancelBookingCase {
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BookingService implements CreateBookingCase, GetListBookingCase, CancelBookingCase{
     private final BookingRepositoryPort bookingRepositoryPort;
 
     public BookingService(BookingRepositoryPort bookingRepositoryPort) {
@@ -46,7 +52,24 @@ public class BookingService implements CreateBookingCase, CancelBookingCase {
                 saved.getUpdatedAt()
         );
     }
-
+    @Override
+    public List<BookingResponse> execute(){
+        List<Booking> bookings = bookingRepositoryPort.findAllBooking();
+        return bookings.stream().map(
+                booking -> new BookingResponse(
+                        booking.getId(),
+                        booking.getClientId(),
+                        booking.getServiceId(),
+                        booking.getUserId(),
+                        booking.getScheduledAt(),
+                        booking.getStatus(),
+                        booking.getReason(),
+                        booking.getNotes(),
+                        booking.getCreatedAt(),
+                        booking.getUpdatedAt()
+                )
+        ).toList();
+    }
     @Override
     public BookingResponse cancelBooking(UUID id) {
         Booking booking = bookingRepositoryPort.findById(id)
