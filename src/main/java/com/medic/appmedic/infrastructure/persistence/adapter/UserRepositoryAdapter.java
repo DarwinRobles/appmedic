@@ -30,6 +30,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
         return userRepository.findById(id).map(this::toDomain);
     }
 
+    @Override
+    public void deleteById(UUID id) {
+        userRepository.deleteById(id);
+    }
+
     private UserJpaEntity toEntity(User user) {
         UserJpaEntity entity = new UserJpaEntity();
         entity.setId(user.getId());

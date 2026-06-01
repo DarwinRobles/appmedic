@@ -3,15 +3,17 @@ package com.medic.appmedic.core.usecase.service;
 import com.medic.appmedic.core.entity.User;
 import com.medic.appmedic.core.usecase.dto.request.RegisterUserRequest;
 import com.medic.appmedic.core.usecase.dto.response.UserResponse;
+import com.medic.appmedic.core.usecase.port.in.DeleteUserCase;
 import com.medic.appmedic.core.usecase.port.in.RegisterUserCase;
 import com.medic.appmedic.core.usecase.port.out.UserRepositoryPort;
 
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
-public class UserService implements RegisterUserCase {
+public class UserService implements RegisterUserCase, DeleteUserCase {
     private final UserRepositoryPort userRepositoryPort;
 
     public UserService(UserRepositoryPort userRepositoryPort) {
@@ -49,5 +51,8 @@ public class UserService implements RegisterUserCase {
     }
 
 
-
+    @Override
+    public void delete(UUID id) {
+        userRepositoryPort.deleteById(id);
+    }
 }
